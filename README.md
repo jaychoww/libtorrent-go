@@ -101,6 +101,13 @@ And a selection of platform specific packages (see below).
 
         make env PLATFORM=android-arm
 
++ Build locally without Docker
+        Is helpful if you need to have all the required stack locally on your OS. 
+        By default it's the same as linux-x64.
+        Everything is installed in `libtorrent-go/install/` directory.
+
+        make local-env
+        
 + Build libtorrent-go:
 
         make [ android-arm | android-arm64 | android-x86 | android-x64 |

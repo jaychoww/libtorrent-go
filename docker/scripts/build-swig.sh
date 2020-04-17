@@ -7,8 +7,8 @@ fi
 tar -xzf swig-${SWIG_VERSION}.tar.gz
 rm swig-${SWIG_VERSION}.tar.gz
 cd swig-${SWIG_VERSION}/
-./autogen.sh 1>log 2>err
-./configure 1>log 2>err
-make -j $(cat /proc/cpuinfo | grep processor | wc -l) 1>log 2>err
-make install 1>log 2>err
+./autogen.sh
+./configure
+make -j $(cat /proc/cpuinfo | grep processor | wc -l)
+make install
 rm -rf `pwd`

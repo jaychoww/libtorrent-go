@@ -21,6 +21,9 @@ PLATFORMS = \
 	darwin-x64 \
 	darwin-x86
 
+LOCALPLATFORM=linux-x64
+LOCALDEST=$(shell pwd)/local-env/
+
 BOOST_VERSION = 1.69.0
 BOOST_VERSION_FILE = $(shell echo $(BOOST_VERSION) | sed s/\\./_/g)
 BOOST_SHA256 = 8f32d4617390d1c2d16f26a27ab60d97807b35440d45891fa340fc2648b04406
@@ -75,6 +78,8 @@ else ifeq ($(TARGET_OS), darwin)
 	GOOS = darwin
 else ifeq ($(TARGET_OS), linux)
 	GOOS = linux
+	CC = gcc
+	CXX = g++
 else ifeq ($(TARGET_OS), android)
 	GOOS = android
 	ifeq ($(TARGET_ARCH), armv6)
@@ -119,7 +124,7 @@ endif
 OUT_PATH = $(shell go env GOPATH)/pkg/$(GOOS)_$(GOARCH)$(PATH_SUFFIX)
 OUT_LIBRARY = $(OUT_PATH)/$(GO_PACKAGE).a
 
-.PHONY: $(PLATFORMS)
+.PHONY: $(PLATFORMS) local-env
 
 all:
 	for i in $(PLATFORMS); do \
@@ -159,22 +164,11 @@ runtest:
 	cd test; go run -x test.go; cd ..
 
 local-env:
-	cd docker && chmod 755 scripts/build-local.sh && \
-	BOOST_VERSION=$(BOOST_VERSION) \
-	BOOST_VERSION_FILE=$(BOOST_VERSION_FILE) \
-	BOOST_SHA256=$(BOOST_SHA256) \
-	OPENSSL_VERSION=$(OPENSSL_VERSION) \
-	OPENSSL_SHA256=$(OPENSSL_SHA256) \
-	SWIG_VERSION=$(SWIG_VERSION) \
-	SWIG_SHA256=$(SWIG_SHA256) \
-	GOLANG_VERSION=$(GOLANG_VERSION) \
-	GOLANG_SRC_URL=$(GOLANG_SRC_URL) \
-	GOLANG_SRC_SHA256=$(GOLANG_SRC_SHA256) \
-	GOLANG_BOOTSTRAP_VERSION=$(GOLANG_BOOTSTRAP_VERSION) \
-	GOLANG_BOOTSTRAP_URL=$(GOLANG_BOOTSTRAP_URL) \
-	GOLANG_BOOTSTRAP_SHA256=$(GOLANG_BOOTSTRAP_SHA256) \
-	LIBTORRENT_VERSION=$(LIBTORRENT_VERSION) \
-	scripts/build-local.sh
+	mkdir -p $(LOCALDEST)
+	$(MAKE) env PLATFORM=$(LOCALPLATFORM)
+	$(DOCKER) run --rm -v $(LOCALDEST):/local-env $(DOCKER_IMAGE):$(LOCALPLATFORM) /bin/bash -c "rm -rf /local-env/*; /bin/cp -rf /usr/$(CROSS_TRIPLE)/* /local-env/; chmod -R 777 /local-env/lib/pkgconfig"
+	sed -i 's|/usr/$(CROSS_TRIPLE)|$(LOCALDEST)|g' $(LOCALDEST)/lib/pkgconfig/*.pc
+	echo ">>> Run 'make re' to compile libtorrent-go locally"
 
 env:
 	$(DOCKER) build \

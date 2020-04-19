@@ -101,12 +101,17 @@ And a selection of platform specific packages (see below).
 
         make env PLATFORM=android-arm
 
-+ Build locally without Docker
-        Is helpful if you need to have all the required stack locally on your OS. 
-        By default it's the same as linux-x64.
-        Everything is installed in `libtorrent-go/install/` directory.
++ Build locally without Docker (for local development, for example)
+    Is helpful if you need to have all the required stack locally on your OS. 
+    By default it's the same as linux-x64.
+    Everything is installed in `libtorrent-go/local-env/` directory.
 
         make local-env
+
+    Then you can run libtorrent-go module compilation
+        make re
+
+    It will make sure to use `libtorrent-go/local-env/lib/pkgconfig/` to compile module and have all the dependencies.
         
 + Build libtorrent-go:
 

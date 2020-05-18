@@ -89,13 +89,7 @@ namespace libtorrent
     }
 }
 
-%rename("%(camelcase)s", %$isclass) "";
-%rename("%(camelcase)s", %$isvariable) "";
-%rename("%(camelcase)s", %$isenumitem) "";
-%rename("%(camelcase)s", %$isenum) "";
-%rename("%(camelcase)s", %$istemplate) "";
-%rename("%(camelcase)s", %$isfunction) "";
-%rename("%(camelcase)s", %$isnamespace) "";
+%include "interfaces/renames.i"
 
 // These are problematic, ignore them for now
 %ignore libtorrent::throw_invalid_handle;
@@ -159,6 +153,8 @@ namespace libtorrent
 
 %include "interfaces/boost_array.i"
 
+%include "interfaces/exceptions.i"
+
 %include <libtorrent/config.hpp>
 %include <libtorrent/export.hpp>
 %include <libtorrent/version.hpp>
@@ -171,9 +167,11 @@ namespace libtorrent
 %include "interfaces/bitfield.i"
 %include "interfaces/socket.i"
 %include <libtorrent/address.hpp>
+
 %include "interfaces/torrent_info.i"
 %include <libtorrent/settings_pack.hpp>
 %include <libtorrent/session_settings.hpp>
+
 %include "interfaces/peer_info.i"
 %include "interfaces/torrent_handle.i"
 %include "interfaces/add_torrent_params.i"
@@ -181,5 +179,3 @@ namespace libtorrent
 %include "interfaces/alert_types.i"
 %include "interfaces/create_torrent.i"
 %include "interfaces/session.i"
-
-

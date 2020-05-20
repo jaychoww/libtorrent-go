@@ -2,6 +2,8 @@
 
 package libtorrent
 
+// Add '-fsanitize=address' to CXXFLAGS and LDFLAGS
+
 // #cgo pkg-config: --static libtorrent-rasterbar openssl
 // #cgo darwin CXXFLAGS: -fvisibility=hidden
 // #cgo darwin LDFLAGS: -lm -lstdc++

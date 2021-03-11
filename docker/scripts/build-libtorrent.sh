@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 set -ex
+
+scripts_path=$(dirname "$(readlink -f "$0")")
+source "${scripts_path}/common.sh"
+
 if [ -v LT_PTHREADS ]; then
   echo "#define BOOST_SP_USE_PTHREADS" >> ${CROSS_ROOT}/include/boost/config/user.hpp
 fi
@@ -18,12 +22,12 @@ CC=${LT_CC} CXX=${LT_CXX} \
 CFLAGS="${CFLAGS} -O2 ${LT_FLAGS}" \
 CXXFLAGS="${CXXFLAGS} ${LT_CXXFLAGS} ${CFLAGS}" \
 LIBS=${LT_LIBS} \
-./configure \
+run ./configure \
     --enable-static \
     --disable-shared \
     --disable-deprecated-functions \
     --host=${CROSS_TRIPLE} \
     --prefix=${CROSS_ROOT} \
     --with-boost=${CROSS_ROOT} --with-boost-libdir=${CROSS_ROOT}/lib ${LT_OPTS}
-make -j $(cat /proc/cpuinfo | grep processor | wc -l) && make install
+run make -j $(cat /proc/cpuinfo | grep processor | wc -l) && make install
 rm -rf `pwd`

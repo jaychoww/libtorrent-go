@@ -18,6 +18,8 @@ ARG GOLANG_BOOTSTRAP_URL
 ARG GOLANG_BOOTSTRAP_SHA256
 ARG LIBTORRENT_VERSION
 
+COPY scripts/common.sh /build/
+
 # Install Boost.System
 COPY scripts/build-boost.sh /build/
 ENV BOOST_CC gcc

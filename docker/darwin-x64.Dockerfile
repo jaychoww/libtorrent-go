@@ -18,6 +18,8 @@ ARG GOLANG_BOOTSTRAP_URL
 ARG GOLANG_BOOTSTRAP_SHA256
 ARG LIBTORRENT_VERSION
 
+COPY scripts/common.sh /build/
+
 # Fix Boost using wrong archiver / ignoring <archiver> flags
 # https://svn.boost.org/trac/boost/ticket/12573
 # https://github.com/boostorg/build/blob/boost-1.63.0/src/tools/clang-darwin.jam#L133

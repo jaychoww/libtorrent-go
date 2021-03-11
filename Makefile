@@ -78,8 +78,10 @@ else ifeq ($(TARGET_OS), darwin)
 	GOOS = darwin
 else ifeq ($(TARGET_OS), linux)
 	GOOS = linux
-	CC = gcc
-	CXX = g++
+	ifeq ($(CROSS_TRIPLE),)
+		CC = gcc
+		CXX = g++
+	endif
 else ifeq ($(TARGET_OS), android)
 	GOOS = android
 	ifeq ($(TARGET_ARCH), armv6)

@@ -19,8 +19,6 @@ This has been designed to run `libtorrent-go` cross compilation and is not meant
 - LD_LIBRARY_PATH
 - PKG_CONFIG_PATH
 
-Also adds CROSS_ROOT/bin in your PATH.
-
 ### Installed packages
 
 Based on Debian Stretch:
@@ -101,17 +99,20 @@ And a selection of platform specific packages (see below).
 
         make env PLATFORM=android-arm
 
-+ Build locally without Docker (for local development, for example)
++ (Optionally) Build locally without Docker (for local development, for example)
+
     Is helpful if you need to have all the required stack locally on your OS. 
-    By default it's the same as linux-x64.
+    You need to specify `CROSS_TRIPLE` - you can find possible values [here](https://github.com/ElementumOrg/cross-compiler/tree/master/docker).
     Everything is installed in `libtorrent-go/local-env/` directory.
 
-        make local-env
+        make local-env CROSS_TRIPLE=x86_64-linux-gnu
 
-    Then you can run libtorrent-go module compilation
+    Then you can run libtorrent-go module compilation:
+
         make re
 
-    It will make sure to use `libtorrent-go/local-env/lib/pkgconfig/` to compile module and have all the dependencies.
+    It will make sure to use `libtorrent-go/local-env/lib/pkgconfig/` to compile module.
+    You also need to set environment variables like [here](https://github.com/ElementumOrg/cross-compiler/blob/master/docker/linux-x64.Dockerfile) and install all the dependencies like [here](docker/linux-x64.Dockerfile).
         
 + Build libtorrent-go:
 

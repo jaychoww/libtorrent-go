@@ -142,7 +142,7 @@ $(PLATFORMS):
 ifeq ($@, all)
 	$(MAKE) all
 else
-	$(DOCKER) run --rm -v $(GOPATH):/go -v $(shell pwd):/go/src/$(GO_PACKAGE) -w /go/src/$(GO_PACKAGE) -e GOPATH=/go $(DOCKER_IMAGE):$@ make re;
+	$(DOCKER) run --rm -v $(GOPATH):/go -v $(shell pwd):/go/src/$(GO_PACKAGE) -w /go/src/$(GO_PACKAGE) -e GOPATH=/go $(PROJECT)/$(DOCKER_IMAGE):$@ make re;
 endif
 
 build:
@@ -173,7 +173,7 @@ runtest:
 local-env:
 	mkdir -p $(LOCALDEST)
 	$(MAKE) env PLATFORM=$(LOCALPLATFORM)
-	$(DOCKER) run --rm -v $(LOCALDEST):/local-env $(DOCKER_IMAGE):$(LOCALPLATFORM) /bin/bash -c "rm -rf /local-env/*; /bin/cp -rf /usr/$(CROSS_TRIPLE)/* /local-env/; chmod -R 777 /local-env/lib/pkgconfig"
+	$(DOCKER) run --rm -v $(LOCALDEST):/local-env $(PROJECT)/$(DOCKER_IMAGE):$(LOCALPLATFORM) /bin/bash -c "rm -rf /local-env/*; /bin/cp -rf /usr/$(CROSS_TRIPLE)/* /local-env/; chmod -R 777 /local-env/lib/pkgconfig"
 	sed -i 's|/usr/$(CROSS_TRIPLE)|$(LOCALDEST)|g' $(LOCALDEST)/lib/pkgconfig/*.pc
 	echo ">>> Run 'make re' to compile libtorrent-go locally"
 
@@ -191,7 +191,7 @@ env:
 		--build-arg GOLANG_BOOTSTRAP_VERSION=$(GOLANG_BOOTSTRAP_VERSION) \
 		--build-arg GOLANG_BOOTSTRAP_SHA256=$(GOLANG_BOOTSTRAP_SHA256) \
 		--build-arg LIBTORRENT_VERSION=$(LIBTORRENT_VERSION) \
-		-t $(DOCKER_IMAGE):$(PLATFORM) \
+		-t $(PROJECT)/$(DOCKER_IMAGE):$(PLATFORM) \
 		-f docker/$(PLATFORM).Dockerfile docker
 
 envs:
@@ -200,8 +200,7 @@ envs:
 	done
 
 pull:
-	docker pull $(PROJECT)/cross-compiler:$(PLATFORM)
-	docker tag $(PROJECT)/cross-compiler:$(PLATFORM) cross-compiler:$(PLATFORM)
+	docker pull $(PROJECT)/libtorrent-go:$(PLATFORM)
 
 pull-all:
 	for i in $(PLATFORMS); do \
@@ -210,7 +209,6 @@ pull-all:
 
 pull-libtorrent:
 	docker pull $(PROJECT)/libtorrent-go:$(PLATFORM)
-	docker tag $(PROJECT)/libtorrent-go:$(PLATFORM) libtorrent-go:$(PLATFORM)
 
 pull-libtorrent-all:
 	for i in $(PLATFORMS); do \
@@ -218,7 +216,6 @@ pull-libtorrent-all:
 	done
 
 push:
-	docker tag libtorrent-go:$(PLATFORM) $(PROJECT)/libtorrent-go:$(PLATFORM)
 	docker push $(PROJECT)/libtorrent-go:$(PLATFORM)
 
 push-all:

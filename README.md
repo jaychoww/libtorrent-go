@@ -101,7 +101,7 @@ And a selection of platform specific packages (see below).
 
 + (Optionally) Build locally without Docker (for local development, for example)
 
-    Is helpful if you need to have all the required stack locally on your OS. 
+    Is helpful if you need to have all the required stack locally on your OS.
     You need to specify `CROSS_TRIPLE` - you can find possible values [here](https://github.com/ElementumOrg/cross-compiler/tree/master/docker).
     Everything is installed in `libtorrent-go/local-env/` directory.
 
@@ -113,7 +113,7 @@ And a selection of platform specific packages (see below).
 
     It will make sure to use `libtorrent-go/local-env/lib/pkgconfig/` to compile module.
     You also need to set environment variables like [here](https://github.com/ElementumOrg/cross-compiler/blob/master/docker/linux-x64.Dockerfile) and install all the dependencies like [here](docker/linux-x64.Dockerfile).
-        
+
 + Build libtorrent-go:
 
         make [ android-arm | android-arm64 | android-x86 | android-x64 |

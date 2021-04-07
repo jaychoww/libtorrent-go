@@ -85,7 +85,7 @@ And a selection of platform specific packages (see below).
         go get github.com/ElementumOrg/libtorrent-go
         cd ~/go/src/github.com/ElementumOrg/libtorrent-go
 
-* Pull the cross-compiler image for your platform:
++ Pull the cross-compiler image for your platform:
 
         make pull PLATFORM=android-arm
 
@@ -109,10 +109,10 @@ And a selection of platform specific packages (see below).
 
     Then you can run libtorrent-go module compilation:
 
-        make re
+        make re TARGET_OS=linux TARGET_ARCH=x64 CROSS_ROOT=local-env
 
-    It will make sure to use `libtorrent-go/local-env/lib/pkgconfig/` to compile module.
-    You also need to set environment variables like [here](https://github.com/ElementumOrg/cross-compiler/blob/master/docker/linux-x64.Dockerfile) and install all the dependencies like [here](docker/linux-x64.Dockerfile).
+    It will make sure to use `libtorrent-go/local-env/lib/pkgconfig/` to compile module and have all the dependencies.
+    But before that you also need to install `swig`.
 
 + Build libtorrent-go:
 

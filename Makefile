@@ -153,7 +153,7 @@ build:
 	GOOS=$(GOOS) GOARCH=$(GOARCH) GOARM=$(GOARM) \
 	PATH=.:$$PATH \
 	go install -v -ldflags '$(GO_LDFLAGS)' $(PKGDIR)
-	
+
 clean:
 	rm -rf $(OUT_LIBRARY)
 

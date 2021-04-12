@@ -19,8 +19,6 @@ This has been designed to run `libtorrent-go` cross compilation and is not meant
 - LD_LIBRARY_PATH
 - PKG_CONFIG_PATH
 
-Also adds CROSS_ROOT/bin in your PATH.
-
 ### Installed packages
 
 Based on Debian Stretch:
@@ -87,7 +85,7 @@ And a selection of platform specific packages (see below).
         go get github.com/ElementumOrg/libtorrent-go
         cd ~/go/src/github.com/ElementumOrg/libtorrent-go
 
-* Pull the cross-compiler image for your platform:
++ Pull the cross-compiler image for your platform:
 
         make pull PLATFORM=android-arm
 
@@ -101,18 +99,21 @@ And a selection of platform specific packages (see below).
 
         make env PLATFORM=android-arm
 
-+ Build locally without Docker (for local development, for example)
-    Is helpful if you need to have all the required stack locally on your OS. 
-    By default it's the same as linux-x64.
++ (Optionally) Build locally without Docker (for local development, for example)
+
+    Is helpful if you need to have all the required stack locally on your OS.
+    You need to specify `CROSS_TRIPLE` - you can find possible values [here](https://github.com/ElementumOrg/cross-compiler/tree/master/docker).
     Everything is installed in `libtorrent-go/local-env/` directory.
 
-        make local-env
+        make local-env CROSS_TRIPLE=x86_64-linux-gnu
 
-    Then you can run libtorrent-go module compilation
-        make re
+    Then you can run libtorrent-go module compilation:
+
+        make re TARGET_OS=linux TARGET_ARCH=x64 CROSS_ROOT=local-env
 
     It will make sure to use `libtorrent-go/local-env/lib/pkgconfig/` to compile module and have all the dependencies.
-        
+    But before that you also need to install `swig`.
+
 + Build libtorrent-go:
 
         make [ android-arm | android-arm64 | android-x86 | android-x64 |

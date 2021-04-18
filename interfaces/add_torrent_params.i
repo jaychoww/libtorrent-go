@@ -3,6 +3,7 @@
 #include <boost/make_shared.hpp>
 #include <boost/cstdint.hpp>
 #include <libtorrent/add_torrent_params.hpp>
+#include <libtorrent/magnet_uri.hpp>
 
 %}
 
@@ -26,3 +27,4 @@
 %ignore libtorrent::add_torrent_params::ti;
 
 %include <libtorrent/add_torrent_params.hpp>
+%include <libtorrent/magnet_uri.hpp>

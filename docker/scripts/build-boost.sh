@@ -20,7 +20,8 @@ cd boost_${BOOST_VERSION_FILE}/
 echo "using ${BOOST_CC} : ${BOOST_OS} : ${CROSS_TRIPLE}-${BOOST_CXX} ${BOOST_FLAGS} ;" > ${HOME}/user-config.jam
 run ./b2 --with-date_time --with-system --with-chrono --with-random --with-program_options --prefix=${CROSS_ROOT} \
   toolset=${BOOST_CC}-${BOOST_OS} ${BOOST_OPTS} link=static variant=release threading=multi \
-  target-os=${BOOST_TARGET_OS} install
+  -j $(cat /proc/cpuinfo | grep processor | wc -l) \
+  target-os=${BOOST_TARGET_OS} install 
 
 rm -rf ${HOME}/user-config.jam
 rm -rf `pwd`

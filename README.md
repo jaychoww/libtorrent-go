@@ -124,6 +124,9 @@ And a selection of platform specific packages (see below).
     To build libtorrent bindings for all platforms use `make` or specify needed platform, e.g. `make android-arm`.
     Built packages will be placed under `~/go/pkg/<platform>`
 
+# Release
+
+Release is done by running `release.sh` script, that compiles all Docker images and pushes them to Docker Hub.
 
 Thanks
 ------
